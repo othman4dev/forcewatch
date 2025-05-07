@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ForceWatch - Search Results</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.12.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../public/style2.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">
+        <img src="/public/images/logo2.png" alt="ForceWatch logo">
+      </a>
+      <div class="ms-auto d-flex align-items-center">
+        <a href="https://github.com/yourusername/forcewatch" class="icon-btn nav-link" title="GitHub Repository">
+          <i class="bi bi-github"></i>
+        </a>
+        <a href="/docs" class="icon-btn nav-link" title="API Documentation">
+          <i class="bi bi-code-slash"></i>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-container">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <h1>Search Results</h1>
+      <a href="/" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Back to Home
+      </a>
+    </div>
+    
+    <!-- Search Form -->
+    <form method="GET" action="/search" class="search-form">
+      <input 
+        type="text" 
+        name="q" 
+        class="search-input" 
+        placeholder="Search for videos on YouTube..." 
+        value="<%= query %>"
+        required
+        autocomplete="off"
+      >
+      <button type="submit" class="search-button">
+        <i class="bi bi-search"></i>
+      </button>
+    </form>
+    
+    <!-- Results Count -->
+    <div class="mb-4">
+      <p class="text-muted">Found <%= videos.length %> results for "<%= query %>"</p>
+    </div>
+    
+    <!-- Results Grid -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <% videos.slice((page - 1) * perPage, page * perPage).forEach(video => { %>
+        <div class="col">
+          <div class="result-card">
+            <div class="result-img-container">
+              <img src="<%= video.thumbnail %>" class="result-img" alt="<%= video.title %>">
+              <div class="video-duration"><%= video.duration %></div>
+            </div>
+            <div class="result-info">
+              <h5 class="result-title"><%= video.title %></h5>
+              <div class="result-channel">
+                <i class="bi bi-person-circle"></i> <%= video.channel %>
+              </div>
+              <div class="result-stats">
+                <span><i class="bi bi-eye"></i> <%= video.views %></span>
+                <span><i class="bi bi-calendar3"></i> <%= video.publishedAt %></span>
+              </div>
+              <div class="result-actions">
+                <a href="/download?url=https://www.youtube.com/watch?v=<%= video.id %>" class="btn btn-primary btn-sm">
+                  <i class="bi bi-download"></i> Download
+                </a>
+                <button class="btn btn-outline-secondary btn-sm copy-link" data-video-id="<%= video.id %>">
+                  <i class="bi bi-clipboard"></i> Copy Link
+                </button>
+                <a href="https://www.youtube.com/watch?v=<%= video.id %>" target="_blank" class="btn btn-outline-secondary btn-sm">
+                  <i class="bi bi-box-arrow-up-right"></i> View
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="pagination-container">
+      <ul class="pagination">
+        <% if (page > 1) { %>
+          <li class="page-item">
+            <a class="page-link" href="/search?q=<%= query %>&page=<%= page - 1 %>" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+        <% } %>
+        
+        <% 
+        const totalPages = Math.ceil(videos.length / perPage);
+        const startPage = Math.max(1, page - 2);
+        const endPage = Math.min(totalPages, page + 2);
+        
+        for (let i = startPage; i <= endPage; i++) { %>
+          <li class="page-item <%= i === page ? 'active' : '' %>">
+            <a class="page-link" href="/search?q=<%= query %>&page=<%= i %>"><%= i %></a>
+          </li>
+        <% } %>
+        
+        <% if (page < totalPages) { %>
+          <li class="page-item">
+            <a class="page-link" href="/search?q=<%= query %>&page=<%= page + 1 %>" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- Toast notification container -->
+  <div class="toast-container"></div>
+  
+  <!-- Footer -->
+  <footer class="mt-4">
+    <div class="container">
+      <p>© 2025 ForceWatch. All rights reserved.</p>
+      <div>
+        <a href="/privacy" class="text-muted me-3">Privacy Policy</a>
+        <a href="/terms" class="text-muted me-3">Terms of Service</a>
+        <a href="/contact" class="text-muted">Contact Us</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Function to show toast notifications
+    function showToast(message, icon = 'bi-info-circle') {
+      const toastContainer = document.querySelector('.toast-container');
+      
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `
+        <i class="bi ${icon}"></i>
+        <span>${message}</span>
+      `;
+      
+      toastContainer.appendChild(toast);
+      
+      // Trigger reflow
+      toast.offsetHeight;
+      
+      // Show toast
+      toast.classList.add('show');
+      
+      // Auto-hide after 3 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+          toast.remove();
+        }, 300);
+      }, 3000);
+    }
+    
+    // Copy link functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const copyButtons = document.querySelectorAll('.copy-link');
+      
+      copyButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const videoId = this.dataset.videoId;
+          const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+          
+          navigator.clipboard.writeText(videoUrl).then(() => {
+            showToast('Link copied to clipboard!', 'bi-clipboard-check');
+          }).catch(err => {
+            showToast('Failed to copy link', 'bi-exclamation-triangle');
+            console.error('Failed to copy: ', err);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
