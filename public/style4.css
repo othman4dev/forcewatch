@@ -1,0 +1,258 @@
+:root {
+    --primary: #ff7d2a;
+    --primary-dark: #e06417;
+    --secondary: #2a3d66;
+    --light-bg: #f8f9fa;
+    --card-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    --transition: all 0.3s ease;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--light-bg);
+    color: #333;
+  }
+  
+  .navbar {
+    background-color: var(--primary);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .navbar-brand img {
+    height: 40px;
+    transition: var(--transition);
+  }
+  
+  .navbar-brand:hover img {
+    transform: scale(1.05);
+  }
+  
+  .nav-link {
+    color: white !important;
+    margin: 0 8px;
+    font-weight: 500;
+    transition: var(--transition);
+  }
+  
+  .nav-link:hover {
+    color: rgba(255,255,255,0.85) !important;
+    transform: translateY(-2px);
+  }
+  
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255,255,255,0.15);
+    transition: var(--transition);
+    margin-left: 8px;
+    font-size: 1.2rem;
+  }
+  
+  .icon-btn:hover {
+    background-color: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
+  }
+  
+  .main-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  .app-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    border: none;
+    transition: var(--transition);
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+  
+  .app-card:hover {
+    box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    transform: translateY(-4px);
+  }
+  
+  .card-header {
+    background-color: var(--secondary);
+    color: white;
+    padding: 1.25rem 1.5rem;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+  }
+  
+  .card-header h4 {
+    margin-bottom: 0;
+    font-weight: 600;
+    margin-left: 10px;
+  }
+  
+  .card-body {
+    padding: 2rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #444;
+  }
+  
+  .file-upload-wrapper {
+    position: relative;
+    margin-bottom: 1.5rem;
+    border: 2px dashed #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    padding: 2rem;
+    transition: var(--transition);
+    text-align: center;
+  }
+  
+  .file-upload-wrapper:hover {
+    border-color: var(--primary);
+    background-color: #fff;
+  }
+  
+  .file-upload-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+  }
+  
+  .file-upload-text {
+    margin-bottom: 1rem;
+    color: #666;
+  }
+  
+  .file-upload-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .file-upload-preview {
+    display: none;
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    font-size: 0.9rem;
+  }
+  
+  .file-upload-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .file-name {
+    font-weight: 500;
+    margin-right: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+  }
+  
+  .file-size {
+    color: #666;
+    white-space: nowrap;
+  }
+  
+  .file-upload-remove {
+    color: #dc3545;
+    cursor: pointer;
+    margin-left: 1rem;
+    font-size: 1.2rem;
+  }
+  
+  .file-upload-remove:hover {
+    color: #b02a37;
+  }
+  
+  .helper-text {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 0.5rem;
+  }
+  
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: var(--transition);
+    border: none;
+  }
+  
+  .btn-primary {
+    background-color: var(--primary);
+  }
+  
+  .btn-primary:hover, .btn-primary:focus {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(230, 100, 23, 0.3);
+  }
+  
+  .btn-primary:disabled {
+    background-color: #ccc;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .btn-outline-secondary {
+    border: 1px solid #ccc;
+    background-color: transparent;
+    color: #666;
+  }
+  
+  .btn-outline-secondary:hover {
+    background-color: #f5f5f5;
+    color: #333;
+    transform: translateY(-2px);
+  }
+  
+  .btn i {
+    margin-right: 0.5rem;
+  }
+  
+  .cookie-info {
+    background-color: rgba(255, 125, 42, 0.1);
+    border-left: 4px solid var(--primary);
+    padding: 1rem;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 2rem;
+  }
+  
+  .cookie-info h5 {
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  
+  .cookie-info p {
+    margin-bottom: 0;
+    color: #555;
+  }
+  
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    color: #777;
+    font-size: 0.9rem;
+  }

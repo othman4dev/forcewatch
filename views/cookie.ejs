@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ForceWatch - Upload Cookie</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../public/style4.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">
+        <img src="/public/images/logo2.png" alt="ForceWatch logo">
+      </a>
+      <div class="ms-auto d-flex align-items-center">
+        <a href="https://github.com/yourusername/forcewatch" class="icon-btn nav-link" title="GitHub Repository">
+          <i class="bi bi-github"></i>
+        </a>
+        <a href="/docs" class="icon-btn nav-link" title="API Documentation">
+          <i class="bi bi-code-slash"></i>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-container">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <h1>Upload Cookie File</h1>
+      <a href="/" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Back to Home
+      </a>
+    </div>
+    
+    <div class="cookie-info">
+      <h5><i class="bi bi-info-circle me-2"></i> Why upload a cookie file?</h5>
+      <p>Cookie files allow ForceWatch to access age-restricted or private videos that would otherwise be unavailable. Your cookie data is used only for your current session and is not stored on our servers.</p>
+    </div>
+    
+    <div class="app-card">
+      <div class="card-header">
+        <i class="bi bi-shield-lock"></i>
+        <h4>Upload Cookie File</h4>
+      </div>
+      <div class="card-body">
+        <form action="/cookie-upload" method="POST" enctype="multipart/form-data" id="cookieForm">
+          <div class="file-upload-wrapper">
+            <i class="bi bi-file-earmark-text file-upload-icon"></i>
+            <h5>Drag & Drop your cookie file here</h5>
+            <p class="file-upload-text">or click to browse your files</p>
+            <input type="file" name="cookieFile" class="file-upload-input" id="cookieFileInput" accept=".txt,.json,.netscape">
+            
+            <div class="file-upload-preview" id="filePreview">
+              <div class="file-upload-info">
+                <span class="file-name" id="fileName">filename.txt</span>
+                <span class="file-size" id="fileSize">0 KB</span>
+                <i class="bi bi-x-circle file-upload-remove" id="removeFile"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="helper-text mb-4">
+            <i class="bi bi-check-circle me-1"></i> Supported formats: .txt, .json, .netscape
+          </div>
+          
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary" id="uploadButton" disabled>
+              <i class="bi bi-upload"></i> Upload Cookie
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Instructions Card -->
+    <div class="app-card">
+      <div class="card-header">
+        <i class="bi bi-question-circle"></i>
+        <h4>How to Get Cookie Files</h4>
+      </div>
+      <div class="card-body">
+        <div class="accordion" id="cookieInstructions">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                From Google Chrome
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#cookieInstructions">
+              <div class="accordion-body">
+                <ol>
+                  <li>Install the <a href="https://chrome.google.com/webstore/detail/get-cookiestxt/bgaddhkoddajcdgocldbbfleckgcbcid" target="_blank">Get cookies.txt</a> extension</li>
+                  <li>Visit YouTube and make sure you're logged in</li>
+                  <li>Click on the extension icon and click "Export"</li>
+                  <li>Save the file and upload it here</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                From Firefox
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#cookieInstructions">
+              <div class="accordion-body">
+                <ol>
+                  <li>Install the <a href="https://addons.mozilla.org/en-US/firefox/addon/cookies-txt/" target="_blank">cookies.txt</a> addon</li>
+                  <li>Visit YouTube and make sure you're logged in</li>
+                  <li>Click on the addon icon in your toolbar</li>
+                  <li>Click "Save all Cookies" and save the file</li>
+                  <li>Upload the saved file here</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                From yt-dlp
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#cookieInstructions">
+              <div class="accordion-body">
+                <p>If you already have a cookies file exported from yt-dlp, you can upload it directly.</p>
+                <p>To create a new one, run:</p>
+                <pre><code>yt-dlp --cookies-from-browser chrome --cookies cookiefile.txt</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <footer class="mt-4">
+    <div class="container">
+      <p>© 2025 ForceWatch. All rights reserved.</p>
+      <div>
+        <a href="/privacy" class="text-muted me-3">Privacy Policy</a>
+        <a href="/terms" class="text-muted me-3">Terms of Service</a>
+        <a href="/contact" class="text-muted">Contact Us</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const fileInput = document.getElementById('cookieFileInput');
+      const filePreview = document.getElementById('filePreview');
+      const fileName = document.getElementById('fileName');
+      const fileSize = document.getElementById('fileSize');
+      const removeFile = document.getElementById('removeFile');
+      const uploadButton = document.getElementById('uploadButton');
+      const form = document.getElementById('cookieForm');
+      
+      // Format file size
+      function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+      }
+      
+      // Handle file selection
+      fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+          const file = this.files[0];
+          fileName.textContent = file.name;
+          fileSize.textContent = formatFileSize(file.size);
+          filePreview.style.display = 'block';
+          uploadButton.disabled = false;
+        }
+      });
+      
+      // Handle drag and drop
+      const dropZone = document.querySelector('.file-upload-wrapper');
+      
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+      });
+      
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, highlight, false);
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, unhighlight, false);
+      });
+
+      function highlight() {
+        dropZone.style.borderColor = '#ff7d2a';
+        dropZone.style.backgroundColor = '#fff';
+      }
+
+      function unhighlight() {
+        dropZone.style.borderColor = '#ddd';
+        dropZone.style.backgroundColor = '#f9f9f9';
+      }
+      
+      dropZone.addEventListener('drop', handleDrop, false);
+      
+      function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        
+        if (files.length) {
+          fileInput.files = files;
+          const file = files[0];
+          fileName.textContent = file.name;
+          fileSize.textContent = formatFileSize(file.size);
+          filePreview.style.display = 'block';
+          uploadButton.disabled = false;
+        }
+      }
+      
+      // Remove file
+      removeFile.addEventListener('click', function() {
+        fileInput.value = '';
+        filePreview.style.display = 'none';
+        uploadButton.disabled = true;
+      });
+      
+      // Form submission
+      form.addEventListener('submit', function(e) {
+        if (!fileInput.files.length) {
+          e.preventDefault();
+          alert('Please select a cookie file to upload.');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

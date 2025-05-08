@@ -1,13 +1,17 @@
+require('dotenv').config();
 const express = require('express');
 const { exec } = require('child_process');
 const path = require('path');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const fs = require('fs');
-const cheerio = require('cheerio'); // You'll need to install this: npm install cheerio
+const cheerio = require('cheerio');
+const multer = require('multer');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+const upload = multer({ dest: 'uploads/' });
 
 // Ensure downloads directory exists
 const downloadsDir = path.join(__dirname, 'downloads');
@@ -54,7 +58,7 @@ app.get('/download', (req, res) => {
   const fileName = `video_${Date.now()}.mp4`;
   const outputPath = path.join(downloadsDir, fileName);
 
-  const command = `yt-dlp -o "${outputPath}" "${videoUrl}"`;
+  const command = `yt-dlp --cookie /var/www/forcewatch/cookie.txt -o "${outputPath}" "${videoUrl}"`;
 
   exec(command, (error) => {
     if (error) {
@@ -71,7 +75,7 @@ app.get('/search', async (req, res) => {
   
   // Get page number from query string or default to 1
   const page = parseInt(req.query.page) || 1;
-  const perPage = 9; // Number of videos per page
+  const perPage = 9;
 
   try {
     const response = await axios.get('https://www.youtube.com/results', {
@@ -93,6 +97,45 @@ app.get('/search', async (req, res) => {
     res.render('error', {
       message: 'Error fetching search results'
     });
+  }
+});
+
+app.get('/cookie', (req, res) => {
+  res.render('cookie');
+})
+
+app.post('/cookie-upload', upload.single('cookieFile'), async (req, res) => {
+  try {
+    const targetPath = path.join(__dirname, 'cookie.txt');
+
+    if (req.file) {
+      // File was uploaded
+      const tempPath = req.file.path;
+      
+      // Overwrite cookie.txt with the uploaded file content
+      const fileData = fs.readFileSync(tempPath);
+      fs.writeFileSync(targetPath, fileData);
+      
+      // Remove the temp file
+      fs.unlinkSync(tempPath);
+
+      console.log('Cookie file uploaded and saved.');
+      return res.redirect('/');
+
+    } else if (req.body.cookie) {
+      // Text was sent
+      const cookieContent = req.body.cookie;
+
+      fs.writeFileSync(targetPath, cookieContent, 'utf8');
+
+      console.log('Cookie text saved.');
+      return res.redirect('/');
+    } else {
+      return res.redirect('/');
+    }
+  } catch (err) {
+    console.error('Error saving cookie:', err);
+    return res.redirect('/');
   }
 });
 

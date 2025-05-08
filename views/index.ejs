@@ -22,13 +22,16 @@
         <a href="/docs" class="icon-btn nav-link" title="API Documentation">
           <i class="bi bi-code-slash"></i>
         </a>
+        <a href="/cookie" class="icon-btn nav-link" title="Cookie Configuration">
+          <i class="bi bi-cookie"></i>
+        </a>
       </div>
     </div>
   </nav>
 
   <!-- Main Content -->
   <div class="main-container">
-    <h1 class="text-center mb-4">ForceWatch Youtube Proxy</h1>
+    <h1 class="text-center mb-4">ForceWatch</h1>
     <p class="text-center text-muted mb-5">Bypass network proxies and watch your favourite content.</p>
     
     <!-- Download Card -->
@@ -112,11 +115,14 @@
       </div>
     </div>
   </div>
-  
+
+  <!-- Toast notification container -->
+  <div class="toast-container"></div>
+
   <!-- Footer -->
   <footer class="mt-4">
     <div class="container">
-      <p>© 2025 ForceWatch. All rights reserved.</p>
+      <p>© 2025 ForceWatch by othman4dev. All rights reserved.</p>
       <div>
         <a href="/privacy" class="text-muted me-3">Privacy Policy</a>
         <a href="/terms" class="text-muted me-3">Terms of Service</a>
@@ -128,3 +134,36 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+<script>
+  function showToast(message, icon = 'bi-info-circle') {
+      const toastContainer = document.querySelector('.toast-container');
+      
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `
+        <i class="bi ${icon}"></i>
+        <span>${message}</span>
+      `;
+      
+      toastContainer.appendChild(toast);
+      
+      // Trigger reflow
+      toast.offsetHeight;
+      
+      // Show toast
+      toast.classList.add('show');
+      
+      // Auto-hide after 3 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+          toast.remove();
+        }, 300);
+      }, 3000);
+    }
+
+    if (message) {
+      showToast(message, statusCode == 200 ? '<i class="bi bi-check"></i>' : '<i class="bi bi-x"></i>');
+    }
+</script>
